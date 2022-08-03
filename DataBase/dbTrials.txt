@@ -1,0 +1,331 @@
+mysql> desc patient_info;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| id     | int         | NO   | PRI | NULL    | auto_increment |
+| fname  | varchar(20) | YES  |     | NULL    |                |
+| lname  | varchar(20) | YES  |     | NULL    |                |
+| nmobno | varchar(10) | YES  |     | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> insert into patient_info values(default,"Ravi","Tambade","1122334455");
+Query OK, 1 row affected (0.22 sec)
+
+mysql> insert into patient_info values(default,"Shubhangi","tambade","1122334455");
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into patient_info values(default,"Astha","Dubey","112334455");
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into patient_info values(default,"Suryakant","Dhumale","112334455");
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into patient_info values(default,"Sumedh","Zende","112334455");
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into patient_info values(default,"Prabandh","Shinde","112334455");
+Query OK, 1 row affected (0.11 sec)
+
+mysql> insert into patient_info values(default,"Ankit","Jadhav","112334455");
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into patient_info values(default,"Pratik","Alhat","112334455");
+Query OK, 1 row affected (0.09 sec)
+
+mysql> table patient_info;
++----+-----------+---------+------------+
+| id | fname     | lname   | nmobno     |
++----+-----------+---------+------------+
+|  1 | Ravi      | Tambade | 1122334455 |
+|  2 | Shubhangi | tambade | 1122334455 |
+|  3 | Astha     | Dubey   | 112334455  |
+|  4 | Suryakant | Dhumale | 112334455  |
+|  5 | Sumedh    | Zende   | 112334455  |
+|  6 | Prabandh  | Shinde  | 112334455  |
+|  7 | Ankit     | Jadhav  | 112334455  |
+|  8 | Pratik    | Alhat   | 112334455  |
++----+-----------+---------+------------+
+8 rows in set (0.00 sec)
+
+
+
+
+
+
+mysql> create table validate(id int auto_increment primary key,uname varchar(20),password varchar(20),patient_id int, foreign key(patient_id) references patient_info(id));
+Query OK, 0 rows affected (0.49 sec)
+
+mysql> desc validate;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| uname      | varchar(20) | YES  |     | NULL    |                |
+| password   | varchar(20) | YES  |     | NULL    |                |
+| patient_id | int         | YES  | MUL | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> insert into validate values(default,"transflower","ravitambade",1);
+Query OK, 1 row affected (0.15 sec)
+
+mysql> insert into validate values(default,"naxali","dubey",2);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> insert into validate values(default,"shubhangi_mam","tambade",2);
+Query OK, 1 row affected (0.15 sec)
+
+mysql> insert into validate values(default,"shubhangi_mam","",4);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> table patient_info;
++----+-----------+---------+------------+
+| id | fname     | lname   | nmobno     |
++----+-----------+---------+------------+
+|  1 | Ravi      | Tambade | 1122334455 |
+|  2 | Shubhangi | tambade | 1122334455 |
+|  3 | Astha     | Dubey   | 112334455  |
+|  4 | Suryakant | Dhumale | 112334455  |
+|  5 | Sumedh    | Zende   | 112334455  |
+|  6 | Prabandh  | Shinde  | 112334455  |
+|  7 | Ankit     | Jadhav  | 112334455  |
+|  8 | Pratik    | Alhat   | 112334455  |
++----+-----------+---------+------------+
+8 rows in set (0.00 sec)
+
+
+mysql> select * from validate,patient_info where patient_info.id =2 && patient_info.id=validate.id;;
++----+--------+----------+------------+----+-----------+---------+------------+
+| id | uname  | password | patient_id | id | fname     | lname   | nmobno     |
++----+--------+----------+------------+----+-----------+---------+------------+
+|  2 | naxali | dubey    |          2 |  2 | Shubhangi | tambade | 1122334455 |
++----+--------+----------+------------+----+-----------+---------+------------+
+1 row in set, 1 warning (0.00 sec)
+
+ERROR:
+No query specified
+
+mysql> select * from validate,patient_info where patient_info.id =2 && patient_info.id=validate.patient_id;;
++----+---------------+----------+------------+----+-----------+---------+------------+
+| id | uname         | password | patient_id | id | fname     | lname   | nmobno     |
++----+---------------+----------+------------+----+-----------+---------+------------+
+|  2 | naxali        | dubey    |          2 |  2 | Shubhangi | tambade | 1122334455 |
+|  4 | shubhangi_mam | tambade  |          2 |  2 | Shubhangi | tambade | 1122334455 |
++----+---------------+----------+------------+----+-----------+---------+------------+
+2 rows in set, 1 warning (0.00 sec)
+
+ERROR:
+No query specified
+
+mysql> table validate;
++----+---------------+-----------------+------------+
+| id | uname         | password        | patient_id |
++----+---------------+-----------------+------------+
+|  1 | transflower   | ravitambade     |          1 |
+|  2 | naxali        | dubey           |          2 |
+|  3 | chhotadon     | silencer        |          3 |
+|  4 | shubhangi_mam | tambade         |          2 |
+|  5 | shubhangi_mam |                 |          4 |
+|  6 | chhotadon     | silencer        |          4 |
+|  7 | sumiii        | zendes          |          5 |
+|  8 | captain       | futlele         |          6 |
+|  9 | ankuliii      | nashik_wadewale |          7 |
+| 10 | ap's          | parivrajjya     |          8 |
++----+---------------+-----------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> table patient_info;
++----+-----------+---------+------------+
+| id | fname     | lname   | nmobno     |
++----+-----------+---------+------------+
+|  1 | Ravi      | Tambade | 1122334455 |
+|  2 | Shubhangi | tambade | 1122334455 |
+|  3 | Astha     | Dubey   | 112334455  |
+|  4 | Suryakant | Dhumale | 112334455  |
+|  5 | Sumedh    | Zende   | 112334455  |
+|  6 | Prabandh  | Shinde  | 112334455  |
+|  7 | Ankit     | Jadhav  | 112334455  |
+|  8 | Pratik    | Alhat   | 112334455  |
++----+-----------+---------+------------+
+8 rows in set (0.00 sec)
+
+mysql> update table validate set uname="shubhangi_mam" & password="transflower" where id=2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table validate set uname="shubhangi_mam" & password="transflower" where id=2' at line 1
+mysql>
+mysql> update table validate set uname="shubhangi_mam" && password="transflower" where id=2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table validate set uname="shubhangi_mam" && password="transflower" where id=2' at line 1
+mysql> update table validate set uname="shubhangi_mam" and password="transflower" where id=2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table validate set uname="shubhangi_mam" and password="transflower" where id=2' at line 1
+mysql> update table validate set uname="shubhangi_mam" and password="transflower" where i
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table validate set uname="shubhangi_mam" and password="transflower" where i' at line 1
+mysql>
+mysql>
+mysql>
+mysql> update table validate set uname="shubhangi_mam" and password="transflower" where id=2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table validate set uname="shubhangi_mam" and password="transflower" where id=2' at line 1
+mysql>
+mysql>
+mysql> update validate set uname="shubhangi" where id=2;
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update validate set uname="shubhangi"and password="transflower" where id=2;
+ERROR 1292 (22007): Truncated incorrect DOUBLE value: 'shubhangi'
+mysql> update validate set password="transflower" where id=2;
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> table validate;
++----+---------------+-----------------+------------+
+| id | uname         | password        | patient_id |
++----+---------------+-----------------+------------+
+|  1 | transflower   | ravitambade     |          1 |
+|  2 | shubhangi     | transflower     |          2 |
+|  3 | chhotadon     | silencer        |          3 |
+|  4 | shubhangi_mam | tambade         |          2 |
+|  5 | shubhangi_mam |                 |          4 |
+|  6 | chhotadon     | silencer        |          4 |
+|  7 | sumiii        | zendes          |          5 |
+|  8 | captain       | futlele         |          6 |
+|  9 | ankuliii      | nashik_wadewale |          7 |
+| 10 | ap's          | parivrajjya     |          8 |
++----+---------------+-----------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> delete table validate where id=3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table validate where id=3' at line 1
+mysql>
+mysql>
+mysql> delete from validate where id=3;
+Query OK, 1 row affected (0.14 sec)
+
+mysql> delete from validate where id=3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from validate where id=4;
+Query OK, 1 row affected (0.08 sec)
+
+mysql> table validate;
++----+---------------+-----------------+------------+
+| id | uname         | password        | patient_id |
++----+---------------+-----------------+------------+
+|  1 | transflower   | ravitambade     |          1 |
+|  2 | shubhangi     | transflower     |          2 |
+|  5 | shubhangi_mam |                 |          4 |
+|  6 | chhotadon     | silencer        |          4 |
+|  7 | sumiii        | zendes          |          5 |
+|  8 | captain       | futlele         |          6 |
+|  9 | ankuliii      | nashik_wadewale |          7 |
+| 10 | ap's          | parivrajjya     |          8 |
++----+---------------+-----------------+------------+
+8 rows in set (0.00 sec)
+
+mysql> delete from validate where id=5;
+Query OK, 1 row affected (0.12 sec)
+
+mysql> table validate;
++----+-------------+-----------------+------------+
+| id | uname       | password        | patient_id |
++----+-------------+-----------------+------------+
+|  1 | transflower | ravitambade     |          1 |
+|  2 | shubhangi   | transflower     |          2 |
+|  6 | chhotadon   | silencer        |          4 |
+|  7 | sumiii      | zendes          |          5 |
+|  8 | captain     | futlele         |          6 |
+|  9 | ankuliii    | nashik_wadewale |          7 |
+| 10 | ap's        | parivrajjya     |          8 |
++----+-------------+-----------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> insert into validate values(3,"naxali","dubey",3);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> table validate;
++----+-------------+-----------------+------------+
+| id | uname       | password        | patient_id |
++----+-------------+-----------------+------------+
+|  1 | transflower | ravitambade     |          1 |
+|  2 | shubhangi   | transflower     |          2 |
+|  3 | naxali      | dubey           |          3 |
+|  6 | chhotadon   | silencer        |          4 |
+|  7 | sumiii      | zendes          |          5 |
+|  8 | captain     | futlele         |          6 |
+|  9 | ankuliii    | nashik_wadewale |          7 |
+| 10 | ap's        | parivrajjya     |          8 |
++----+-------------+-----------------+------------+
+8 rows in set (0.00 sec)
+
+mysql> table patient_info;
++----+-----------+---------+------------+
+| id | fname     | lname   | nmobno     |
++----+-----------+---------+------------+
+|  1 | Ravi      | Tambade | 1122334455 |
+|  2 | Shubhangi | tambade | 1122334455 |
+|  3 | Astha     | Dubey   | 112334455  |
+|  4 | Suryakant | Dhumale | 112334455  |
+|  5 | Sumedh    | Zende   | 112334455  |
+|  6 | Prabandh  | Shinde  | 112334455  |
+|  7 | Ankit     | Jadhav  | 112334455  |
+|  8 | Pratik    | Alhat   | 112334455  |
++----+-----------+---------+------------+
+8 rows in set (0.00 sec)
+
+mysql>
+mysql>  select * from validate,patient_info where patient_info.id =2 && patient_info.id=validate.patient_id;;
++----+-----------+-------------+------------+----+-----------+---------+------------+
+| id | uname     | password    | patient_id | id | fname     | lname   | nmobno     |
++----+-----------+-------------+------------+----+-----------+---------+------------+
+|  2 | shubhangi | transflower |          2 |  2 | Shubhangi | tambade | 1122334455 |
++----+-----------+-------------+------------+----+-----------+---------+------------+
+1 row in set, 1 warning (0.00 sec)
+
+ERROR:
+No query specified
+
+mysql>  select * from validate,patient_info where patient_info.id =4 && patient_info.id=validate.patient_id;;
++----+-----------+----------+------------+----+-----------+---------+-----------+
+| id | uname     | password | patient_id | id | fname     | lname   | nmobno    |
++----+-----------+----------+------------+----+-----------+---------+-----------+
+|  6 | chhotadon | silencer |          4 |  4 | Suryakant | Dhumale | 112334455 |
++----+-----------+----------+------------+----+-----------+---------+-----------+
+1 row in set, 1 warning (0.00 sec)
+
+ERROR:
+No query specified
+
+mysql>  select * from validate,patient_info where patient_info.id =4 && patient_info.id=validate.patient_id;;
++----+-----------+----------+------------+----+-----------+---------+-----------+
+| id | uname     | password | patient_id | id | fname     | lname   | nmobno    |
++----+-----------+----------+------------+----+-----------+---------+-----------+
+|  6 | chhotadon | silencer |          4 |  4 | Suryakant | Dhumale | 112334455 |
++----+-----------+----------+------------+----+-----------+---------+-----------+
+1 row in set, 1 warning (0.00 sec)
+
+ERROR:
+No query specified
+
+mysql>  select * from validate,patient_info where patient_info.id =4 && patient_info.id=validate.patient_id;;
++----+-----------+----------+------------+----+-----------+---------+-----------+
+| id | uname     | password | patient_id | id | fname     | lname   | nmobno    |
++----+-----------+----------+------------+----+-----------+---------+-----------+
+|  6 | chhotadon | silencer |          4 |  4 | Suryakant | Dhumale | 112334455 |
++----+-----------+----------+------------+----+-----------+---------+-----------+
+1 row in set, 1 warning (0.00 sec)
+
+ERROR:
+No query specified
+
+mysql>  select * from patient_info,validate where patient_info.id =4 && patient_info.id=validate.patient_id;;
++----+-----------+---------+-----------+----+-----------+----------+------------+
+| id | fname     | lname   | nmobno    | id | uname     | password | patient_id |
++----+-----------+---------+-----------+----+-----------+----------+------------+
+|  4 | Suryakant | Dhumale | 112334455 |  6 | chhotadon | silencer |          4 |
++----+-----------+---------+-----------+----+-----------+----------+------------+
+1 row in set, 1 warning (0.00 sec)
+
+ERROR:
+No query specified
+
+mysql>
