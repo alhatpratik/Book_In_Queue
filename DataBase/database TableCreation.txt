@@ -1,0 +1,180 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.29 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database MyProject;
+Query OK, 1 row affected (0.21 sec)
+
+mysql> use myproject;
+Database changed
+mysql>
+mysql>
+mysql> create table patient_info(id int auto_increment primary key,fname varchar(20) not null,lname varchar(20) not null,mobNo bigint not null);
+Query OK, 0 rows affected (0.30 sec)
+
+mysql> create table doctor_info(id int auto_increment primary key,fname varchar(20) not null,lname varchar(20) not null,mobNo bigint not null);
+Query OK, 0 rows affected (0.46 sec)
+
+mysql> create table doctor_info(id int auto_increment primary key,fname varchar(20) not null,lname varchar(20) not null,mobNo bigint not null);
+ERROR 1050 (42S01): Table 'doctor_info' already exists
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> create table patient_validation(id int auto_increment primary key,uname varchar(20) not null,password varchar(20) not null,patient_id int, foreign key(patient_id) references patient_info(id) on delete cascade);
+Query OK, 0 rows affected (0.60 sec)
+
+mysql> show tables;
++---------------------+
+| Tables_in_myproject |
++---------------------+
+| doctor_info         |
+| patient_info        |
+| patient_validation  |
++---------------------+
+3 rows in set (0.00 sec)
+
+mysql> create table doctor_validation(id int auto_increment primary key,uname varchar(20) not null,password varchar(20) not null,doctor_id int, foreign key(patient_id) references doctor_info(id) on delete cascade);
+ERROR 1072 (42000): Key column 'patient_id' doesn't exist in table
+mysql>
+mysql>
+mysql> create table doctor_validation(id int auto_increment primary key,uname varchar(20) not null,password varchar(20) not null,doctor_id int, foreign key(patient_id) references doctor_info(id) on delete cascade);
+ERROR 1072 (42000): Key column 'patient_id' doesn't exist in table
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> create table doctor_validation(id int auto_increment primary key,uname varchar(20) not null,password varchar(20) not null,doctor_id int, foreign key(doctor_id) references doctor_info(id) on delete cascade);
+Query OK, 0 rows affected (0.56 sec)
+
+mysql> show tables;
++---------------------+
+| Tables_in_myproject |
++---------------------+
+| doctor_info         |
+| doctor_validation   |
+| patient_info        |
+| patient_validation  |
++---------------------+
+4 rows in set (0.00 sec)
+
+mysql> create table Clinic_Address(id int auto_increment primary key,apartment varchar(20),Street varchar(20),
+    -> colony varchar(20),landmark varchar(20) not null,Village varchar(20) not null,city varchar(20) not null,district varchar(20) not null);
+Query OK, 0 rows affected (0.65 sec)
+
+mysql>
+mysql>
+mysql> show tables;
++---------------------+
+| Tables_in_myproject |
++---------------------+
+| clinic_address      |
+| doctor_info         |
+| doctor_validation   |
+| patient_info        |
+| patient_validation  |
++---------------------+
+5 rows in set (0.00 sec)
+
+mysql> drop table clinic_address;
+Query OK, 0 rows affected (0.28 sec)
+
+mysql> colony varchar(20),landmark varchar(20) not null,Village varchar(20) not null,city varchar(20) not null,district varchar(20) not null,doctor_id int, foreign key(doctor_id) references doctor_info(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'colony varchar(20),landmark varchar(20) not null,Village varchar(20) not null,ci' at line 1
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> colony varchar(20),landmark varchar(20) not null,Village varchar(20) not null,city varchar(20) not null,district varchar(20) not null,doctor_id int, foreign key(doctor_id) references doctor_info(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'colony varchar(20),landmark varchar(20) not null,Village varchar(20) not null,ci' at line 1
+mysql>
+mysql>
+mysql>
+mysql> create table Clinic_Address(id int auto_increment primary key,apartment varchar(20),Street varchar(20),colony varchar(20),landmark varchar(20) not null,Village varchar(20) not null,city varchar(20) not null,district varchar(20) not null,doctor_id int, foreign key(doctor_id) references doctor_info(id) on delete cascade);
+Query OK, 0 rows affected (0.60 sec)
+
+mysql> show tables;
++---------------------+
+| Tables_in_myproject |
++---------------------+
+| clinic_address      |
+| doctor_info         |
+| doctor_validation   |
+| patient_info        |
+| patient_validation  |
++---------------------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql> create table patient_booking_history(id int auto_increment primary key,booking_date date,booking_time time,patient_id int, foreign key(patient_id) references patient_info(id) on delete cascade);
+Query OK, 0 rows affected (0.94 sec)
+
+mysql> create table clinic_time(id int auto_increment primary key,start_time time not null,slot_time time not null,buffer_time time not null,end_time time not null, doctor_id int, foreign key(doctor_id) references doctor_info(id)on delete cascade);
+Query OK, 0 rows affected (1.33 sec)
+
+mysql> create table treatment_speciality(id int auto_increment primary key,speciality varchar(100),doctor_id int, foreign key(doctor_id) references doctor_info(id)on delete cascade);
+Query OK, 0 rows affected (0.97 sec)
+
+mysql> create table booked_appointments_per_day(id int auto_increment primary key,booking_date date not null,booked_time time not null,doctor_id int, foreign key(doctor_id) references doctor_info(id)on delete cascade);
+Query OK, 0 rows affected (1.26 sec)
+
+mysql> show tables;
++-----------------------------+
+| Tables_in_myproject         |
++-----------------------------+
+| booked_appointments_per_day |
+| clinic_address              |
+| clinic_time                 |
+| doctor_info                 |
+| doctor_validation           |
+| patient_booking_history     |
+| patient_info                |
+| patient_validation          |
+| treatment_speciality        |
++-----------------------------+
+9 rows in set (0.00 sec)
+
+mysql> desc booked_appointments_per_day;
++--------------+------+------+-----+---------+----------------+
+| Field        | Type | Null | Key | Default | Extra          |
++--------------+------+------+-----+---------+----------------+
+| id           | int  | NO   | PRI | NULL    | auto_increment |
+| booking_date | date | NO   |     | NULL    |                |
+| booked_time  | time | NO   |     | NULL    |                |
+| doctor_id    | int  | YES  | MUL | NULL    |                |
++--------------+------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql>  drop table booked_appointments_per_day;
+Query OK, 0 rows affected (0.37 sec)
+
+mysql> create table booked_appointments_per_day(id int auto_increment primary key,booking_date date not null,booked_time time not null,doctor_id int,patient_id int,foreign key(doctor_id) references doctor_info(id)on delete cascade,foreign key(patient_id) references patient_info(id)on delete cascade);
+Query OK, 0 rows affected (0.72 sec)
+
+mysql> desc booked_appointments_per_day;
++--------------+------+------+-----+---------+----------------+
+| Field        | Type | Null | Key | Default | Extra          |
++--------------+------+------+-----+---------+----------------+
+| id           | int  | NO   | PRI | NULL    | auto_increment |
+| booking_date | date | NO   |     | NULL    |                |
+| booked_time  | time | NO   |     | NULL    |                |
+| doctor_id    | int  | YES  | MUL | NULL    |                |
+| patient_id   | int  | YES  | MUL | NULL    |                |
++--------------+------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql>
