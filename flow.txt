@@ -1,0 +1,46 @@
+SET2
+
+blank solution --> add project --> create mvc project
+
+in app data folder --> add --> data sql server database--> give db1.mdf name to file
+ open it --> add new table->give column details --> 
+
+add nuGet --> EntityFramework
+
+models-->add new item --> select ado.net -->give name "pizzaModel" choose EF Designer from database- next - click on table --> finish
+
+go to build --> rebuild
+if table is not showing delete files in models and again add new pizzamodel in models
+
+add controller choose view controller using entity fw --> model class choose table(pizza) -->data content class --> dbentities class
+this will give controller methods and views
+
+RUN THE APPLICATION
+
+in home controller 
+add function List --> (returning view with which we are sending list) --> add bdtable list from tablecontroller file(line num 18 of table controller) create object of db here
+add view list list table1 db1entity
+this will give list.cshtml file 
+
+
+add new controller
+logincontroller --> add view give 
+change line 10 actionlink ("path name","controller name","file name")
+
+test code
+
+AUTHORIZATION
+
+[authorize]
+in table controller give above class
+
+we did set path for login in Web.config file
+in <system.web> tag add tag
+<authenthication mode="Forms">
+<forms loginUrl="/login/login"></forms>
+</authenthication> 
+
+OPTIONAL
+to give logout link 
+in index.cshtml give @html.actionlink("logout","logout","login");// logout mtd,login controller
+
